@@ -1,0 +1,10 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_mysql
+    database_host: $MYSQL_HOST
+    database_port: $MYSQL_PORT
+    database_name: $MYSQL_DATABASE
+    database_user: $MYSQL_USER
+    database_password: $MYSQL_PASSWORD
+    locale: en
+    secret: ThisTokenIsNotSoSecretChangeIt
