@@ -4,7 +4,7 @@ ENV AKENEO_VERSION 1.7
 RUN apt-get update && apt-get -y install \
   mysql-client php-xml php-zip php5-curl php5-intl wget \
   php-mbstring php5-mysql php5-gd php5-mcrypt golang-go \
-  php5-cli php5-apcu libapache2-mod-php5 git && \
+  php5-cli php5-apcu libapache2-mod-php5 git vim && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN wget http://download.akeneo.com/pim-community-standard-v$AKENEO_VERSION-latest.tar.gz -P /workdir/ && \
