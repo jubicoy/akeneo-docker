@@ -1,10 +1,10 @@
-FROM jubicoy/nginx-php:latest
+FROM jubicoy/nginx-php:php7
 ENV AKENEO_VERSION 1.7
 
 RUN apt-get update && apt-get -y install \
-  mysql-client php-xml php-zip php5-curl php5-intl wget \
-  php-mbstring php5-mysql php5-gd php5-mcrypt golang-go \
-  php5-cli php5-apcu libapache2-mod-php5 git vim && \
+  mysql-client php7.0-xml php7.0-zip php7.0-curl php7.0-intl wget \
+  php7.0-mbstring php7.0-mysql php7.0-gd php7.0-mcrypt golang-go \
+  php7.0-cli php-apcu git vim && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN wget http://download.akeneo.com/pim-community-standard-v$AKENEO_VERSION-latest.tar.gz -P /workdir/ && \
@@ -16,9 +16,8 @@ RUN rm -fv /etc/nginx/conf.d/default.conf && mv /workdir/default.conf /etc/nginx
 ADD conf/parameters.yml /workdir/parameters.yml
 
 RUN rm -fv /var/www/pim-community-standard/app/config/parameters.yml && rm -fv /var/www/pim-community-standard/app/config/parameters.yml.dist
-RUN mkdir -p /workdir/conf/fpm && mkdir /workdir/conf/cli && mv /etc/php5/fpm/php.ini /workdir/conf/fpm/php.ini && \
-  mv /etc/php5/cli/php.ini /workdir/conf/cli/php.ini && ln -s /workdir/conf/fpm/php.in /etc/php5/fpm/php.ini && \
-  ln -s /workdir/conf/cli/php.ini /etc/php5/cli/php.ini
+RUN mkdir -p /workdir/conf/fpm && mv /etc/php/7.0/fpm/php.ini /workdir/conf/fpm/php.ini && \
+  ln -s /workdir/conf/fpm/php.ini /etc/php/7.0/fpm/php.ini
 
 # Install cron
 COPY app /usr/src/cron
@@ -27,10 +26,10 @@ RUN /opt/build.sh
 
 COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-RUN chown -R 104:0 /var/www && chmod -R g+rw /var/www && \
+RUN chmod -R a+rw /var/www && \
   chmod a+x /workdir/entrypoint.sh && chmod g+rw /workdir && chmod 777 -R /workdir/conf/*
 
 VOLUME ["/volume"]
 EXPOSE 5000
 
-USER 104
+USER 100104

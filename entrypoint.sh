@@ -12,7 +12,6 @@ cp /var/www/pim-community-standard/app/config/parameters.yml /var/www/pim-commun
 
 sed -i 's#memory_limit = 128M#memory_limit = 1024M#g' /workdir/conf/fpm/php.ini
 sed -i 's#;date.timezone =#date.timezone = "'"${TIMEZONE}"'"#g' /workdir/conf/fpm/php.ini
-sed -i 's#;date.timezone =#date.timezone = "'"${TIMEZONE}"'"#g' /workdir/conf/cli/php.ini
 
 
 
