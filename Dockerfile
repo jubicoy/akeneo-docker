@@ -31,6 +31,9 @@ ADD entrypoint.sh /workdir/entrypoint.sh
 RUN chmod -R a+rw /var/www && \
   chmod a+x /workdir/entrypoint.sh && chmod g+rw /workdir && chmod 777 -R /workdir/conf/*
 
+ADD repair.sh /workdir/repair.sh
+RUN chmod a+x /workdir/repair.sh
+
 VOLUME ["/volume"]
 EXPOSE 5000
 
