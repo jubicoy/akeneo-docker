@@ -11,15 +11,19 @@ envsubst < /workdir/parameters.yml > /var/www/pim-community-standard/app/config/
 cp /var/www/pim-community-standard/app/config/parameters.yml /var/www/pim-community-standard/app/config/parameters.yml.dist
 
 sed -i 's#memory_limit = 128M#memory_limit = 1024M#g' /workdir/conf/fpm/php.ini
-sed -i 's#;date.timezone =#date.timezone = "'"${TIMEZONE}"'"#g' /workdir/conf/fpm/php.ini
+sed -i 's#;date.timezone =#date.timezone = '${TIMEZONE}'#g' /workdir/conf/fpm/php.ini
 
-
+sed -i 's#memory_limit = 128M#memory_limit = 1024M#g' /workdir/conf/cli/php.ini
+sed -i 's#;date.timezone =#date.timezone = '${TIMEZONE}'#g' /workdir/conf/cli/php.ini
 
 # Check if Akeneo already installed to DB
-if [ $(mysql -N -s -u${MYSQL_USER} -p${MYSQL_PASSWORD} -h${MYSQL_HOST} -e \
-  "select count(*) from information_schema.tables where \
-  table_schema='${MYSQL_DATABASE}' and table_name='pim_versioning_version';") -eq 1 ]; then
-  echo "Database already exists"
+#if [ $(mysql -N -s -u${MYSQL_USER} -p${MYSQL_PASSWORD} -h${MYSQL_HOST} -e \
+#  "select count(*) from information_schema.tables where \
+#  table_schema='${MYSQL_DATABASE}' and table_name='pim_versioning_version';") -eq 1 ]; then
+
+# Check if catalog already exists
+if [ -d /var/www/pim-community-standard/app/file_storage/catalog ]; then
+  echo "Catalog already exists"
   (cd /var/www/pim-community-standard; rm -rf ./web/bundles/* ./web/css/* ./web/js/*)
   (cd /var/www/pim-community-standard; php app/console pim:install:assets --env=prod)
   (cd /var/www/pim-community-standard; php app/console assets:install --symlink web)
