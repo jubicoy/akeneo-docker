@@ -1,0 +1,45 @@
+diff --git a/app/PimRequirements.php b/app/PimRequirements.php
+index 0f5fa19..23f7ee8 100644
+--- a/app/PimRequirements.php
++++ b/app/PimRequirements.php
+@@ -126,23 +126,23 @@ class PimRequirements extends SymfonyRequirements
+             );
+         }
+ 
+-        $currentMySQLVersion = $this->getMySQLVersion();
+-
+-        $this->addPimRequirement(
+-            version_compare($currentMySQLVersion, self::LOWEST_REQUIRED_MYSQL_VERSION, '>=')  &&
+-            version_compare($currentMySQLVersion, self::GREATEST_REQUIRED_MYSQL_VERSION, '<'),
+-            sprintf(
+-                'MySQL version must be greater or equal to %s and lower than %s',
+-                self::LOWEST_REQUIRED_MYSQL_VERSION,
+-                self::GREATEST_REQUIRED_MYSQL_VERSION
+-            ),
+-            sprintf(
+-                'Install MySQL greater or equal to %s and lower than %s (installed version is %s)',
+-                self::LOWEST_REQUIRED_MYSQL_VERSION,
+-                self::GREATEST_REQUIRED_MYSQL_VERSION,
+-                $currentMySQLVersion
+-            )
+-        );
++        //$currentMySQLVersion = $this->getMySQLVersion();
++
++        //$this->addPimRequirement(
++            //version_compare($currentMySQLVersion, self::LOWEST_REQUIRED_MYSQL_VERSION, '>=')  &&
++            //version_compare($currentMySQLVersion, self::GREATEST_REQUIRED_MYSQL_VERSION, '<'),
++            //sprintf(
++                //'MySQL version must be greater or equal to %s and lower than %s',
++                //self::LOWEST_REQUIRED_MYSQL_VERSION,
++                //self::GREATEST_REQUIRED_MYSQL_VERSION
++            //),
++            //sprintf(
++                //'Install MySQL greater or equal to %s and lower than %s (installed version is %s)',
++                //self::LOWEST_REQUIRED_MYSQL_VERSION,
++                //self::GREATEST_REQUIRED_MYSQL_VERSION,
++                //$currentMySQLVersion
++            //)
++        //);
+ 
+         $this->addPimRequirement(
+             function_exists('exec'),

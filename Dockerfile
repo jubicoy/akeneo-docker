@@ -13,11 +13,12 @@ RUN apt-get update && apt-get -y install \
   wget http://download.akeneo.com/pim-community-standard-v2.0-latest.tar.gz -P /workdir/ && \
   tar -zxvf /workdir/pim-community-standard-v2.0-latest.tar.gz -C /var/www/ && \
   apt-get clean && \
-  rm -rf /workdir/*.zip /workdir/*.tar.xz /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  rm -rf /workdir/*.zip /workdir/node-v* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ADD . /tmp/
 
-RUN rm -fv /etc/nginx/conf.d/default.conf && \
+RUN (cd /var/www/pim-community-standard; patch -p1 < /tmp/mysql.patch) && \
+  rm -fv /etc/nginx/conf.d/default.conf && \
   mv /tmp/conf/default.conf /etc/nginx/conf.d/default.conf && \
   mv /tmp/conf/parameters.yml /workdir/parameters.yml && \
   (cd /var/www/pim-community-standard; php -d memory_limit=3G ../composer.phar install --optimize-autoloader --prefer-dist) && \
