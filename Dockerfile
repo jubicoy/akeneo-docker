@@ -1,5 +1,7 @@
 FROM jubicoy/nginx-php:php7.1
 
+ENV AKENEO_VERSION v2.1
+
 RUN apt-get update && apt-get -y install \
     mysql-client wget golang-go git vim \
     php7.1-apcu php7.1-bcmath php7.1-cli \
@@ -10,8 +12,8 @@ RUN apt-get update && apt-get -y install \
   tar -xf /workdir/node-v8.9.4-linux-x64.tar.xz && \
   cp -R /workdir/node-v8.9.4-linux-x64/* /usr && \
   npm i -g yarn && \
-  wget http://download.akeneo.com/pim-community-standard-v2.0-latest.tar.gz -P /workdir/ && \
-  tar -zxvf /workdir/pim-community-standard-v2.0-latest.tar.gz -C /var/www/ && \
+  wget http://download.akeneo.com/pim-community-standard-${AKENEO_VERSION}-latest.tar.gz -P /workdir/ && \
+  tar -zxvf /workdir/pim-community-standard-${AKENEO_VERSION}-latest.tar.gz -C /var/www/ && \
   apt-get clean && \
   rm -rf /workdir/*.zip /workdir/node-v* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -42,7 +44,3 @@ RUN (cd /var/www/pim-community-standard; patch -p1 < /tmp/mysql.patch) && \
   chmod a+x /workdir/repair.sh && \
   rm -r /tmp/*
 
-VOLUME ["/volume"]
-EXPOSE 5000
-
-USER 100104
