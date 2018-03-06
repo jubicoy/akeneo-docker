@@ -1,11 +1,4 @@
 #!/bin/bash
-export USER_ID=$(id -u)
-export GROUP_ID=$(id -g)
-envsubst < /workdir/passwd.template > /tmp/passwd
-export LD_PRELOAD=libnss_wrapper.so
-export NSS_WRAPPER_PASSWD=/tmp/passwd
-export NSS_WRAPPER_GROUP=/etc/group
-
 sed -i 's#memory_limit = 128M#memory_limit = 1024M#g' /workdir/conf/fpm/php.ini
 sed -i 's#;date.timezone =#date.timezone = '${TIMEZONE}'#g' /workdir/conf/fpm/php.ini
 sed -i 's#memory_limit = 128M#memory_limit = 1024M#g' /workdir/conf/cli/php.ini
