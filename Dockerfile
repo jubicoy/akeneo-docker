@@ -40,9 +40,8 @@ RUN echo "extension=apcu.so" > /etc/php/7.1/cli/conf.d/20-apcu.ini && \
   cp -R /tmp/app /usr/src/cron && \
   mv /tmp/build.sh /opt/build.sh && \
   /opt/build.sh && \
-  cp /tmp/conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf && \
-  cp /tmp/entrypoint.sh /workdir && \
-  chmod a+x /workdir/entrypoint.sh && \
+  cp /tmp/start-cmd /opt/bin/start-cmd && \
+  chmod -R a+rw /var/www && \
   chmod g+rw /workdir && \
   chmod 777 -R /workdir/conf/* && \
   cp /tmp/repair.sh /workdir && \
@@ -51,4 +50,6 @@ RUN echo "extension=apcu.so" > /etc/php/7.1/cli/conf.d/20-apcu.ini && \
   echo "clear_env = no" >> /etc/php/7.1/fpm/pool.d/www.conf && \
   rm -r /tmp/*
 
-ENTRYPOINT "/workdir/entrypoint.sh"
+EXPOSE 5000
+
+CMD ["/opt/bin/start-cmd"]
