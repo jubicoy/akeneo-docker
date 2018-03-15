@@ -29,6 +29,8 @@ RUN echo "extension=apcu.so" > /etc/php/7.1/cli/conf.d/20-apcu.ini && \
   rm -fv /etc/nginx/conf.d/default.conf && \
   mv /tmp/conf/default.conf /etc/nginx/conf.d/default.conf && \
   mv /tmp/conf/parameters.yml /workdir/parameters.yml && \
+  mv /tmp/conf/z_akeneo-job-queue.conf /etc/supervisor/conf.d/ && \
+  mv /tmp/conf/z_go_cron.conf /etc/supervisor/conf.d/ && \
   (cd /var/www/pim-community-standard; php -d memory_limit=3G ../composer.phar install --optimize-autoloader --prefer-dist) && \
   (cd /var/www/pim-community-standard; yarn install) && \
   rm -fv /var/www/pim-community-standard/app/config/parameters.yml && \
@@ -45,10 +47,13 @@ RUN echo "extension=apcu.so" > /etc/php/7.1/cli/conf.d/20-apcu.ini && \
   chmod g+rw /workdir && \
   chmod 777 -R /workdir/conf/* && \
   cp /tmp/repair.sh /workdir && \
+  cp /tmp/akeneo_scheduled_tasks.sh /workdir/ && \
   chmod a+x /workdir/repair.sh && \
+  chmod a+x /workdir/akeneo_scheduled_tasks.sh && \
   /usr/libexec/fix-permissions /var/www && \
   echo "clear_env = no" >> /etc/php/7.1/fpm/pool.d/www.conf && \
-  rm -r /tmp/*
+  rm -r /tmp/* && \
+  chmod 777 -R /tmp
 
 EXPOSE 5000
 
